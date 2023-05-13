@@ -56,14 +56,14 @@ class Messenger(QtWidgets.QMainWindow, clientui.Ui_MainWindow):
             )
         except:
             # TODO the server is unavailable
-            self.textBrowser.append('Oops... the server is unavailable')
-            self.textBrowser.append('Please try again later')
+            self.textBrowser.append('Сервер недоступен')
+            self.textBrowser.append('Попробуйте позже')
             self.textBrowser.append('')
 
             return
         if response.status_code != 200:
             # TODO report an error
-            self.textBrowser.append('Hmm...Error, check the name and text')
+            self.textBrowser.append('Проверьте ваше имя и текст')
             self.textBrowser.append('')
 
             return
