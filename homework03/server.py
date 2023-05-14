@@ -8,14 +8,8 @@ app = Flask(__name__)
 db = [
     {
         'time': time.time(),
-        'name': 'Jack',
-        'text': 'Привет, всем!',
-    },
-    {
-        'time': time.time(),
-        'name': 'Mary',
-        'text': 'Привет, Jack!',
-
+        'name': 'Бот:',
+        'text': 'Для активации бота напишите /game . После этого введите "Камень", "Ножницы" или "Бумага". Для окончания игры введите /break ',
     },
 ]
 
@@ -77,11 +71,9 @@ def send_message():
         'name': name,
         'text': text,
     }
-    db.append(message)
-
-    return {"OK": True}
 
     global game
+    game = False
     game_elements = ['Ножницы','Камень', 'Бумага']
 
     if message['text'] == '/help':
@@ -120,6 +112,8 @@ def send_message():
         db.append(message)
         game = False
 
+    db.append(message)
+    return {"OK": True}
 @app.route("/messages")
 def get_messages():
     # print(request.args['after'])
