@@ -76,7 +76,7 @@ class Messenger(QtWidgets.QMainWindow, clientui.Ui_MainWindow):
 
 
 app = QtWidgets.QApplication([])
-window = Messenger(host='https://9812-2a00-1370-8178-58af-b522-f395-daee-429d.ngrok-free.app')
+window = Messenger(host='https://928b-2a00-1370-8178-58af-4d1-3e64-d9a1-3965.ngrok-free.app')
 window.show()
 app.exec()
 

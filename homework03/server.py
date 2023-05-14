@@ -1,8 +1,10 @@
 import time
+import random
 from datetime import datetime
 from flask import Flask, request, abort
 
 app = Flask(__name__)
+
 db = [
     {
         'time': time.time(),
@@ -31,14 +33,13 @@ def status():
             names.append(k['name'])
     n_users = len(names)
     n_msg = len(db)
-    status_serv = {'status': True,
-                   'name': "Server lesson #1",
-                   'time': datetime.datetime.now().strftime('%Y/%m/%d time: %H:%M:%S'),
-                   'number of users': n_users,
-                   'name of users': names,
-                   'number of messages': n_msg
+    return {'status': True,
+            'name': "Server lesson #1",
+            'time': datetime.now().strftime('%Y/%y/%m/%d time: %H:%M:%S'),
+            'number of users': n_users,
+            'name of users': names,
+            'number of messages': n_msg
     }
-    return status_serv
 
     #return {
     #    'status': True,
@@ -51,6 +52,7 @@ def status():
     #    'time6': datetime.now().isoformat(),
     #}
 
+game = False
 
 @app.route("/send", methods=['POST'])
 def send_message():
@@ -79,6 +81,44 @@ def send_message():
 
     return {"OK": True}
 
+    global game
+    game_elements = ['Ножницы','Камень', 'Бумага']
+
+    if message['text'] == '/help':
+        message = {
+            'time': time.time(),
+            'name': 'Бот:',
+            'text': 'Для активации бота напишите /game . После этого введите "Камень", "Ножницы" или "Бумага". Для окончания игры введите /break '
+        }
+        db.append(message)
+
+    if message['text'] == "/game":
+        message = {
+            'time': time.time(),
+            'name': 'Бот:',
+            'text': 'Введите "Камень", "Ножницы" или "Бумага".'
+        }
+        db.append(message)
+        game = True
+
+    if game == True:
+        if message['text'].lower() == "Ножницы" or message['text'].lower() == "Камень" or message['text'].lower() == "Бумага":
+            bot_choice = random.randrange(0, 3)
+            message = {
+                'time': time.time(),
+                'name': 'Бот:',
+                'text': game_elements[bot_choice]
+            }
+        db.append(message)
+
+    if message['text'] == "/break":
+        message = {
+            'time': time.time(),
+            'name': 'Бот:',
+            'text': 'Спасибо за игру!'
+        }
+        db.append(message)
+        game = False
 
 @app.route("/messages")
 def get_messages():
