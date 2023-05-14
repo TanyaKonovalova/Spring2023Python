@@ -5,8 +5,9 @@ from PyQt6 import QtWidgets, QtCore
 import clientui
 
 class Messenger(QtWidgets.QMainWindow, clientui.Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, host):
         super().__init__()
+        self.host = host
         self.setupUi(self)
 
         self.pushButton.pressed.connect(self.send_message)
@@ -46,7 +47,7 @@ class Messenger(QtWidgets.QMainWindow, clientui.Ui_MainWindow):
 
         try:
             response = requests.post(
-                'http://127.0.0.1:5000/send',
+                self.host + '/send',
 
                 json={
                     'name': name,
@@ -75,7 +76,7 @@ class Messenger(QtWidgets.QMainWindow, clientui.Ui_MainWindow):
 
 
 app = QtWidgets.QApplication([])
-window = Messenger()
+window = Messenger(host='https://9812-2a00-1370-8178-58af-b522-f395-daee-429d.ngrok-free.app')
 window.show()
 app.exec()
 

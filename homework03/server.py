@@ -25,17 +25,31 @@ def hello():
 
 @app.route("/status")
 def status():
-    return {
-        'status': True,
-        'name': 'Messenger',
-        'time': time.asctime(),
-        'time2': time.time(),
-        'time3': datetime.now(),
-        'time4': str(datetime.now()),
-        'time5': datetime.now().strftime('%Y/%y/%m/%d time: %H:%M:%S'),
-        'time6': datetime.now().isoformat(),
-
+    names =[]
+    for k in db:
+        if k['name'] not in names:
+            names.append(k['name'])
+    n_users = len(names)
+    n_msg = len(db)
+    status_serv = {'status': True,
+                   'name': "Server lesson #1",
+                   'time': datetime.datetime.now().strftime('%Y/%m/%d time: %H:%M:%S'),
+                   'number of users': n_users,
+                   'name of users': names,
+                   'number of messages': n_msg
     }
+    return status_serv
+
+    #return {
+    #    'status': True,
+    #    'name': 'Messenger',
+    #    'time': time.asctime(),
+    #    'time2': time.time(),
+    #    'time3': datetime.now(),
+    #    'time4': str(datetime.now()),
+    #    'time5': datetime.now().strftime('%Y/%y/%m/%d time: %H:%M:%S'),
+    #    'time6': datetime.now().isoformat(),
+    #}
 
 
 @app.route("/send", methods=['POST'])
